@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+pip-wheel-metadata/
+
+# Virtualenv
+venv/
+.env
+*.venv
+*.env
+
+# Logs
+*.log
+logs/
+*.out
+*.err
+*.pid
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Redis
+dump.rdb
+redis.conf
+
+# Databases
+*.sqlite3
+db.sqlite3
+
+# Django
+media/
+static/
+*.swp
+
+# VS Code
+.vscode/
+
+# MacOS
+.DS_Store
