@@ -35,12 +35,13 @@ DEBUG = True
 # CELERY_TASK_SERIALIZER = "json"
 
 
-ALLOWED_HOSTS = ['640c-86-62-2-249.ngrok-free.app', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['8385-86-62-2-249.ngrok-free.app', '127.0.0.1', 'localhost']
 
-CSRF_TRUSTED_ORIGINS = ['https://640c-86-62-2-249.ngrok-free.app']
+CSRF_TRUSTED_ORIGINS = ['https://8385-86-62-2-249.ngrok-free.app']
 
 
 INSTALLED_APPS = [
+    'django_extensions',
     'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -63,12 +64,27 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+JAZZMIN_SETTINGS = {
+    "site_header": "UzFlix Admin Panel",  # Изменение заголовка
+    "site_brand": "UzFlix",  # Изменение текста на кнопке вверху
+    "site_url": "/admin/",  # Изменение ссылки
+    'site_logo': 'IMG_0104-removebg-preview.png',
+    'custom_css': 'css/custom.css'
+}
+JAZZMIN_UI_TWEAKS = {
+    "theme": "cyborg",
+    # "brand_small_style": "width: 150px; height: 150px;",
+    # "brand_large_style": "width: 120px; height: 120px;",
+}
+
+
+
 ROOT_URLCONF = 'core.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR/ 'templates'],  # Добавляем путь
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -81,6 +97,7 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'core.wsgi.application'
 
 
@@ -90,9 +107,9 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'videos',
+        'NAME': 'video',
         'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'PASSWORD': '1234',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -139,3 +156,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
