@@ -19,11 +19,11 @@ class ChannelListAPIView(APIView):
         return Response({ch["chat_id"]: ch["link"] for ch in serializer.data})
 
 
-
 class MovieListAPIView(APIView):
     def get(self, request):
+        lang = request.META.get('HTTP_ACCEPT_LANGUAGE', 'ru')  # Получаем язык из заголовка
         movies = Movie.objects.all()
-        serializer = MovieSerializer(movies, many=True)
+        serializer = MovieSerializer(movies, many=True, context={'lang': lang})
         return Response(serializer.data)
 
 class UploadMovieAPIView(APIView):
@@ -42,15 +42,17 @@ class UploadMovieAPIView(APIView):
 class MovieDownloadAPIView(APIView):
     def get(self, request, movie_id):
         movie = get_object_or_404(
-            Movie.objects.only("id", "file_id", "type", "title", "film_year_manufacture", "stars"), id=movie_id)
-
+            Movie.objects.prefetch_related('type').only("id", "file_id", "type", "title_ru", "title_uz", "title_en", "film_year_manufacture", "stars"),
+            id=movie_id
+        )
         if movie.file_id:
-            types = [t.title for t in
-                     movie.type.all()]  # Преобразуем объекты ManyToMany в список их названий или других атрибутов
+            types = [t.title for t in movie.type.all()]
             return Response({
                 "file_id": movie.file_id,
-                "type": types,  # Печатаем список названий или любых других атрибутов объектов типа
-                "title": movie.title,
+                "type": types,
+                "title_ru": movie.title_ru,
+                "title_en": movie.title_en,
+                "title_uz": movie.title_uz,
                 "film_year_manufacture": movie.film_year_manufacture,
                 "stars": movie.stars
             })
@@ -59,20 +61,31 @@ class MovieDownloadAPIView(APIView):
 
 class MovieSearchAPIView(APIView):
     class MoviePagination(PageNumberPagination):
-        page_size = 10  # Количество элементов на странице
+        page_size = 100
         page_size_query_param = 'page_size'
         max_page_size = 100
 
     def get(self, request, title):
-        movies = Movie.objects.filter(Q(title__icontains=title))
+        print(f"Received title: {title}")  # Проверьте, что title правильно декодирован
+        movies = Movie.objects.filter(title__icontains=title)
         paginator = self.MoviePagination()
         result_page = paginator.paginate_queryset(movies, request)
         serializer = MovieSerializer(result_page, many=True)
         return paginator.get_paginated_response(serializer.data)
 
 
+
 class TopMoviesAPIView(APIView):
     def get(self, request, top_movie_id):
-        top_movie = get_object_or_404(TopMovie, id=top_movie_id)
+        top_movie = get_object_or_404(
+            TopMovie.objects.prefetch_related('movies__type'),
+            id=top_movie_id
+        )
         serializer = MovieTopSerializer(top_movie)
-        return Response(serializer.data)
+        data = serializer.data
+
+        for movie in data["movies"]:
+            movie_obj = Movie.objects.get(id=movie["id"])
+            movie["type"] = [t.title for t in movie_obj.type.all()]
+
+        return Response(data)

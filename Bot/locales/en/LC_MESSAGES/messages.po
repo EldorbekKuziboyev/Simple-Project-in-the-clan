@@ -1,0 +1,39 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "language_select"
+msgstr "Select language:"
+
+msgid "start"
+msgstr "🎬 Hi! I'm a bot that will help you find and watch movies.  \n\n📌 Available commands:  \n🔹 /movies — show the list of available movies  \n🔹 /search [title] — find a movie by title  \n🔹 /top — show the top movies list  \n\nSend me a command, and I'll help you find an interesting movie! 🍿 "
+
+msgid "no_movies"
+msgstr "No movies found."
+
+msgid "movies_list"
+msgstr "Movies list:\n"
+
+msgid "error"
+msgstr "An error occurred."
+
+msgid "not_subscribed"
+msgstr "You are not subscribed to the channels. Please subscribe:"
+
+msgid "subscribed"
+msgstr "Thank you for subscribing! Now you can download the movie."
+
+msgid "search_results"
+msgstr "Search results for '{query}':\n"
+
+msgid "top_movies"
+msgstr "Top movies:\n"
+
+msgid "type"
+msgstr "Type"
+
+msgid "stars"
+msgstr "Stars"
+
+msgid  "year"
+msgstr "Year"

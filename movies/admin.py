@@ -3,7 +3,7 @@ from django.db.models import Q
 
 from django.contrib.admin.models import LogEntry
 from django.db.models import Count
-from .models import Movie, MovieType, TopMovie, Channel
+from .models import Movie, MovieType, TopMovie, Channel, TelegramUser
 from datetime import timedelta
 from django.utils.timezone import now
 from django.contrib import admin
@@ -11,14 +11,13 @@ from django.urls import path
 from django.shortcuts import render
 
 class MovieAdmin(admin.ModelAdmin):
-    list_display = ("title", "display_movie_types")
+    clist_display = ('title_ru', 'title_en', 'title_uz', 'display_movie_types')
 
     def display_movie_types(self, obj):
         return ", ".join([t.title for t in obj.type.all()])
     display_movie_types.short_description = "Типы"
 
     def changelist_view(self, request, extra_context=None):
-        # Группируем фильмы по их типам и считаем количество
         movie_counts = (
             MovieType.objects
             .annotate(count=Count("movie"))
@@ -63,4 +62,5 @@ admin.site.register(Movie, MovieAdmin)
 admin.site.register(MovieType)
 admin.site.register(TopMovie)
 admin.site.register(Channel)
+admin.site.register(TelegramUser)
 

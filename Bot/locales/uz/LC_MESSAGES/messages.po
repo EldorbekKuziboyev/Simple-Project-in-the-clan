@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "language_select"
+msgstr "Tilni tanlang:"
+
+msgid "start"
+msgstr "🎬 Salom! Men sizga filmlarni topish va tomosha qilishda yordam beradigan botman.  \n\n📌 Mavjud buyruqlar:  \n🔹 /movies — mavjud filmlar ro'yxatini ko'rsatish  \n🔹 /search [nom] — filmni nomi bo‘yicha qidirish  \n🔹 /top — eng yaxshi filmlar ro‘yxatini ko‘rsatish  \n\nMenga buyruq yuboring, men esa sizga qiziqarli film topishga yordam beraman! 🍿 "
+
+msgid "no_movies"
+msgstr "Filmlar topilmadi."
+
+msgid "movies_list"
+msgstr "Filmlar ro'yxati:\n"
+
+msgid "error"
+msgstr "Xatolik yuz berdi."
+
+msgid "not_subscribed"
+msgstr "Siz kanallarga obuna bo'lmagansiz. Iltimos, obuna bo'ling:"
+
+msgid "subscribed"
+msgstr "Obuna bo'lganingiz uchun rahmat! Endi filmni yuklab olishingiz mumkin."
+
+msgid "search_results"
+msgstr "'{query}' uchun qidiruv natijalari:\n"
+
+msgid "top_movies"
+msgstr "Top filmlar:\n"
+
+msgid "back"
+msgstr "orqaga"
+
+msgid "forward"
+msgstr "oldinga"
+
+msgid "type"
+msgstr "Turi"
+
+msgid "stars"
+msgstr "Baho"
+
+msgid  "year"
+msgstr "Yil"
