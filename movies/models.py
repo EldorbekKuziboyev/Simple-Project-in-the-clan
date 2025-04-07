@@ -3,6 +3,14 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+
+class TelegramUser(models.Model):
+    user_id = models.BigIntegerField(unique=True)
+    language = models.CharField(max_length=5, default="ru")
+
+    def __str__(self):
+        return f'{self.user_id} = {self.language}'
+
 class Channel(models.Model):
     chat_id = models.CharField(max_length=50, unique=True)
     link = models.URLField()
@@ -20,6 +28,13 @@ class MovieType(models.Model):
         verbose_name = _("MovieType")
         verbose_name_plural = _("MovieType")
 
+from django.db import models
+from django.utils.translation import gettext_lazy as _
+
+# movies/models.py
+from django.db import models
+from django.utils.translation import gettext_lazy as _
+
 class Movie(models.Model):
     STARS_CHOICES = [
         ('️️️⭐️', '1'),
@@ -28,27 +43,39 @@ class Movie(models.Model):
         ('⭐️⭐️⭐️⭐️', '4'),
         ('⭐️⭐️⭐️⭐️⭐️', '5'),
     ]
+    title = models.CharField(null=True,blank=True)
+    title_ru = models.CharField(_("Название (рус)"), max_length=255, db_index=True, blank=True, null=True)
+    title_en = models.CharField(_("Название (англ)"), max_length=255, db_index=True, blank=True, null=True)
+    title_uz = models.CharField(_("Название (узб)"), max_length=255, db_index=True, blank=True, null=True)
 
-    title = models.CharField(_('title'), max_length=255)
     video_file = models.FileField(_('video_file'))
-    type = models.ManyToManyField(MovieType)
+    type = models.ManyToManyField('MovieType')
     thumbnail = models.FileField(blank=True, null=True)
-    film_year_manufacture = models.DateField(_('Film created year'), blank=True, null=True)
+    film_year_manufacture = models.DateField(_('Film created year'), blank=True, null=True, db_index=True)
     stars = models.CharField(_('stars'), max_length=10, choices=STARS_CHOICES, blank=True, null=True)
-    file_id = models.CharField( max_length=255, blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)  # Дата создания фильма
+    file_id = models.CharField(max_length=255, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
-    def __str__(self):
-        return self.title
+    # def __str__(self):
+    #     return self.title_ru
 
-    def save(self, *args, **kwargs):
-        if self.film_year_manufacture:
-            self.film_year_manufacture = self.film_year_manufacture.replace(month=1, day=1)  # Привести к 1 января
-        super().save(*args, **kwargs)
+    def get_title(self, lang='ru'):
+        if lang == 'ru':
+            return self.title_ru
+        elif lang == 'en':
+            return self.title_en or self.title_ru  # Fallback на русский, если английский отсутствует
+        elif lang == 'uz':
+            return self.title_uz or self.title_ru  # Fallback на русский, если узбекский отсутствует
+        return self.title_ru
 
     class Meta:
         verbose_name = _("Movie")
         verbose_name_plural = _("Movie")
+
+    def __str__(self):
+        return self.title
+
+
 
 class TopMovie(models.Model):
     movies = models.ManyToManyField(Movie)

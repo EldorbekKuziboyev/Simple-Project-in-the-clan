@@ -35,9 +35,9 @@ DEBUG = True
 # CELERY_TASK_SERIALIZER = "json"
 
 
-ALLOWED_HOSTS = ['8385-86-62-2-249.ngrok-free.app', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['8685-86-62-2-250.ngrok-free.app', '127.0.0.1', 'localhost']
 
-CSRF_TRUSTED_ORIGINS = ['https://8385-86-62-2-249.ngrok-free.app']
+CSRF_TRUSTED_ORIGINS = ['https://8685-86-62-2-250.ngrok-free.app']
 
 
 INSTALLED_APPS = [
@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'moviepy',
     'movies',
 ]
 
